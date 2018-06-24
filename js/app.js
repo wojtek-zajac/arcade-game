@@ -18,6 +18,10 @@ update(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x += this.speed * dt;
+    if (this.x >= 600) {
+        this.x = -200;
+    }
 }
 
 // Draw the enemy on the screen, required method for game
@@ -30,11 +34,10 @@ render() {
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
-    constructor(x, y, speed) {
+    constructor(x, y) {
         this.sprite = 'images/char-horn-girl.png';
         this.x = x;
         this.y = y;
-        this.speed = speed;
     }
     update() {
 
@@ -82,18 +85,12 @@ class Player {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 const allEnemies = [];
-const enemy1 = new Enemy(60, 65, 10);
+const enemy1 = new Enemy(-180, 65, 80);
 allEnemies.push(enemy1);
-const enemy2 = new Enemy(100, 145, 10);
+const enemy2 = new Enemy(-600, 145, 150);
 allEnemies.push(enemy2);
-const enemy3 = new Enemy(140, 230, 20);
+const enemy3 = new Enemy(-1500, 230, 110);
 allEnemies.push(enemy3);
-const enemy4 = new Enemy(260, 65, 10);
-allEnemies.push(enemy4);
-const enemy5 = new Enemy(300, 145, 10);
-allEnemies.push(enemy5);
-const enemy6 = new Enemy(340, 230, 20);
-allEnemies.push(enemy6);
 // Place the player object in a variable called player
 const player = new Player(205, 400);
 
