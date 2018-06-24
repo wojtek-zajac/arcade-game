@@ -7,6 +7,8 @@ class Enemy {
     // a helper we've provided to easily load images
     constructor(x, y, speed) {
     this.sprite = 'images/enemy-bug.png';
+    this.width = 101;
+    this.height = 171;
     this.x = x;
     this.y = y;
     this.speed = speed;
@@ -19,7 +21,9 @@ update(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
+    // Check if the enemy is off screen
     if (this.x >= 600) {
+        // If so, move it to start
         this.x = -200;
     }
 }
@@ -36,15 +40,20 @@ render() {
 class Player {
     constructor(x, y) {
         this.sprite = 'images/char-horn-girl.png';
+        this.width = 101;
+        this.height = 171;
         this.x = x;
         this.y = y;
     }
-    update() {
 
+    update() {
+        
     }
+
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
+
     handleInput(keyPressed) {
         const xJump = 100;
         const yJump = 82;
@@ -108,3 +117,19 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+function checkCollisions() {
+    const comfortZone = 70;
+    for (const enemy of allEnemies) {
+        if (player.x < enemy.x + comfortZone &&
+            player.x + comfortZone > enemy.x &&
+            player.y < enemy.y + comfortZone &&
+            player.y + comfortZone > enemy.y) {
+           
+            console.log('collision!');
+            enemy.speed = 0;
+            // player.x = 205;
+            // player.y = 400;        
+        }
+    }
+}
