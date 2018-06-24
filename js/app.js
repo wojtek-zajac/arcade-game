@@ -42,8 +42,40 @@ class Player {
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-    handleInput() {
+    handleInput(keyPressed) {
+        const xJump = 100;
+        const yJump = 82;
+        const maxLeftPostiion = 5;
+        const maxUpPosition = -10;
+        const maxRightPostition = 405;
+        const maxDownPosition = 400;
 
+        switch(keyPressed) {
+            case 'left':
+                this.x -= xJump;
+                    if (this.x <= maxLeftPostiion) {
+                        this.x = maxLeftPostiion;
+                    }
+            break;
+            case 'up':
+                this.y -= yJump;
+                    if (this.y <= maxUpPosition) {
+                        this.y = maxUpPosition;
+                    }
+            break;
+            case 'right':
+                this.x += xJump;
+                    if (this.x >= maxRightPostition) {
+                        this.x = maxRightPostition;
+                    }
+            break;
+            case 'down':
+                this.y += yJump;
+                    if (this.y >= maxDownPosition) {
+                        this.y = maxDownPosition;
+                    }
+            break;
+        }
     }
 }
 
@@ -56,7 +88,6 @@ const enemy2 = new Enemy(100, 145, 10);
 allEnemies.push(enemy2);
 const enemy3 = new Enemy(140, 230, 20);
 allEnemies.push(enemy3);
-
 const enemy4 = new Enemy(260, 65, 10);
 allEnemies.push(enemy4);
 const enemy5 = new Enemy(300, 145, 10);
@@ -64,7 +95,7 @@ allEnemies.push(enemy5);
 const enemy6 = new Enemy(340, 230, 20);
 allEnemies.push(enemy6);
 // Place the player object in a variable called player
-const player = new Player(200, 400);
+const player = new Player(205, 400);
 
 
 
