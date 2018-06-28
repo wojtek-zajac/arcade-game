@@ -108,7 +108,12 @@ Player.prototype.win = function() {
 
 Player.prototype.die = function() {
     player.lives--;
-    document.querySelector('.lives').textContent = player.lives;             
+    document.querySelector('.lives').textContent = player.lives; 
+    
+    if (this.lives === 0) {
+        attachResult();
+        openModal();
+    }
 }
 
 
@@ -160,13 +165,21 @@ function checkCollisions() {
 }
 
 
-const timer = document.querySelector('.stopwatch');
-let time = 10;
-
-
-function countDown() {
-    setInterval( () => {
-        time--;
-        stopwatch.text(`Round time: ${time} s`);
-    }, 1000);
+function openModal() {
+    const modal = document.querySelector('.modal');
+    modal.style.display = 'block';
 }
+
+function closeModal() {
+    const modal = document.querySelector('.modal');
+    modal.style.display = 'none';
+}
+
+function attachResult() {
+    let result = document.querySelector('.result');
+    result.textContent = player.score;
+}
+
+
+const button = document.querySelector('.button');
+button.addEventListener('click', closeModal);
