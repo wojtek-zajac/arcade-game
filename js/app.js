@@ -6,17 +6,15 @@ class Enemy {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     constructor(x, y, speed) {
-    this.sprite = 'images/enemy-bug.png';
-    this.width = 101;
-    this.height = 171;
-    this.x = x;
-    this.y = y;
-    this.speed = speed;
+        this.sprite = 'images/enemy-bug.png';
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
     }
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
-update(dt) {
+    update(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -29,10 +27,11 @@ update(dt) {
 }
 
 // Draw the enemy on the screen, required method for game
-render() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
 };
+
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -40,14 +39,16 @@ render() {
 class Player {
     constructor(x, y) {
         this.sprite = 'images/char-horn-girl.png';
-        this.width = 101;
-        this.height = 171;
         this.x = x;
         this.y = y;
+        this.score = 0;
+        this.winner = false;
+        this.lives = 5;
+        this.comfortZone = 75;
     }
 
     update() {
-        
+        //TBU
     }
 
     render() {
@@ -88,21 +89,46 @@ class Player {
                     }
             break;
         }
+
+        if (this.y === -10) {
+            this.win();
+            setTimeout( () => {
+              this.restart();
+              }, 400);    
+        }
     }
 }
 
+
+Player.prototype.win = function() {
+    this.score++;
+    document.querySelector('.score').textContent = this.score;
+}
+
+
+Player.prototype.die = function() {
+    player.lives--;
+    document.querySelector('.lives').textContent = player.lives;             
+}
+
+
+Player.prototype.restart = function() {
+    this.x = 205;
+    this.y = 400;
+}
+
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-const allEnemies = [];
 const enemy1 = new Enemy(-180, 65, 80);
-allEnemies.push(enemy1);
 const enemy2 = new Enemy(-600, 145, 150);
-allEnemies.push(enemy2);
 const enemy3 = new Enemy(-1500, 230, 110);
-allEnemies.push(enemy3);
+const allEnemies = [];
+allEnemies.push(enemy1, enemy2, enemy3);
+
+
 // Place the player object in a variable called player
 const player = new Player(205, 400);
-
 
 
 // This listens for key presses and sends the keys to your
@@ -118,18 +144,29 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+
+//2D collision detector from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
 function checkCollisions() {
-    const comfortZone = 70;
     for (const enemy of allEnemies) {
-        if (player.x < enemy.x + comfortZone &&
-            player.x + comfortZone > enemy.x &&
-            player.y < enemy.y + comfortZone &&
-            player.y + comfortZone > enemy.y) {
-           
-            console.log('collision!');
-            enemy.speed = 0;
-            // player.x = 205;
-            // player.y = 400;        
-        }
+        if (player.x < enemy.x + player.comfortZone &&
+            player.x + player.comfortZone > enemy.x &&
+            player.y < enemy.y + player.comfortZone &&
+            player.y + player.comfortZone > enemy.y) {
+                
+                player.die();
+                player.restart();
+        } 
     }
+}
+
+
+const timer = document.querySelector('.stopwatch');
+let time = 10;
+
+
+function countDown() {
+    setInterval( () => {
+        time--;
+        stopwatch.text(`Round time: ${time} s`);
+    }, 1000);
 }

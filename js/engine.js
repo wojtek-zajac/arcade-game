@@ -25,7 +25,9 @@ var Engine = (function(global) {
         lastTime;
 
     canvas.width = 505;
+    // canvas.width = 707;
     canvas.height = 606;
+    // canvas.className += 'canvas';
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -116,6 +118,7 @@ var Engine = (function(global) {
             ],
             numRows = 6,
             numCols = 5,
+            // numCols = 7,
             row, col;
         
         // Before drawing, clear existing canvas
