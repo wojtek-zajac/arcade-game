@@ -41,14 +41,16 @@ class Player {
         this.sprite = 'images/char-horn-girl.png';
         this.x = x;
         this.y = y;
-        this.score = 0;
-        this.winner = false;
-        this.lives = 5;
         this.comfortZone = 75;
+        this.score = 0;
+        this.lives = 5;
+        this.dead = false;
     }
 
     update() {
-        //TBU
+        if(this.dead) {
+            openModal();
+        }
     }
 
     render() {
@@ -111,8 +113,8 @@ Player.prototype.die = function() {
     document.querySelector('.lives').textContent = player.lives; 
     
     if (this.lives === 0) {
+        this.dead = true;
         attachResult();
-        openModal();
     }
 }
 
@@ -120,6 +122,15 @@ Player.prototype.die = function() {
 Player.prototype.restart = function() {
     this.x = 205;
     this.y = 400;
+}
+
+
+Player.prototype.resetScore = function() {
+    this.score = 0;
+    this.lives = 5;
+    this.dead = false;
+    document.querySelector('.score').textContent = this.score;
+    document.querySelector('.lives').textContent = this.lives; 
 }
 
 
@@ -173,6 +184,7 @@ function openModal() {
 function closeModal() {
     const modal = document.querySelector('.modal');
     modal.style.display = 'none';
+    player.resetScore();
 }
 
 function attachResult() {
@@ -181,5 +193,7 @@ function attachResult() {
 }
 
 
-const button = document.querySelector('.button');
-button.addEventListener('click', closeModal);
+window.onload = function() {
+    const button = document.querySelector('.button');
+    button.addEventListener('click', closeModal);
+}
