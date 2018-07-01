@@ -61,10 +61,10 @@ class Player {
         const xJump = 100;
         const yJump = 82;
         const maxLeftPostiion = 5;
-        const maxUpPosition = -10;
+        const water = -10;
         const maxRightPostition = 405;
         const maxDownPosition = 400;
-
+        //If the player tries to go off screen, he's set to the max frame position
         switch(keyPressed) {
             case 'left':
                 this.x -= xJump;
@@ -74,8 +74,8 @@ class Player {
             break;
             case 'up':
                 this.y -= yJump;
-                    if (this.y <= maxUpPosition) {
-                        this.y = maxUpPosition;
+                    if (this.y <= water) {
+                        this.y = water;
                     }
             break;
             case 'right':
@@ -91,18 +91,18 @@ class Player {
                     }
             break;
         }
-
-        if (this.y === -10) {
+        //Player reaches the water
+        if (this.y === water) {
             this.win();
             setTimeout( () => {
               this.restart();
-              }, 400);    
+              }, 350);    
         }
     }
 }
 
 
-Player.prototype.win = function() {
+Player.prototype.win = function() { 
     this.score++;
     document.querySelector('.score').textContent = this.score;
 }
@@ -110,7 +110,7 @@ Player.prototype.win = function() {
 
 Player.prototype.die = function() {
     player.lives--;
-    document.querySelector('.lives').textContent = player.lives; 
+    document.querySelector('.lives').textContent = this.lives;
     
     if (this.lives === 0) {
         this.dead = true;
@@ -136,9 +136,9 @@ Player.prototype.resetScore = function() {
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-const enemy1 = new Enemy(-180, 65, 80);
-const enemy2 = new Enemy(-600, 145, 150);
-const enemy3 = new Enemy(-1500, 230, 110);
+const enemy1 = new Enemy(-180, 65, 140);
+const enemy2 = new Enemy(-500, 145, 180);
+const enemy3 = new Enemy(-400, 230, 100);
 const allEnemies = [];
 allEnemies.push(enemy1, enemy2, enemy3);
 
@@ -178,22 +178,32 @@ function checkCollisions() {
 
 function openModal() {
     const modal = document.querySelector('.modal');
+
     modal.style.display = 'block';
 }
 
+
 function closeModal() {
     const modal = document.querySelector('.modal');
+
     modal.style.display = 'none';
     player.resetScore();
 }
 
+
 function attachResult() {
     let result = document.querySelector('.result');
-    result.textContent = player.score;
+    
+    if (player.score > 1 || player.score === 0) {
+        result.textContent = `${player.score} times.`;
+    } else {
+        result.textContent = `${player.score} time.`;
+    }
 }
 
 
-window.onload = function() {
+window.onload = () => {
     const button = document.querySelector('.button');
+
     button.addEventListener('click', closeModal);
 }
