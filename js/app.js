@@ -1,33 +1,44 @@
+// Character super class
+class Character {
+    constructor() {
+        this.sprite = 'images/';
+        this.x = 1;
+        this.y = 1;
+    }
+
+    // Draw the character on the screen, required method for game
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+}
+
+
 // Enemies our player must avoid
-class Enemy {
+class Enemy extends Character {
     // Variables applied to each of our instances go here
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     constructor(x, y, speed) {
-        this.sprite = 'images/enemy-bug.png';
+        super();
+        this.sprite += 'enemy-bug.png';
         this.x = x;
         this.y = y;
         this.speed = speed;
     }
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+    // Update the enemy's position, required method for game
+    // Parameter: dt, a time delta between ticks
     update(dt) {
-    // Multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    this.x += this.speed * dt;
-    // Check if the enemy is off screen
-    if (this.x >= 600) {
-        // If so, move it to start
-        this.x = -200;
-    }
-}
-
-// Draw the enemy on the screen, required method for game
-    render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        // Multiply any movement by the dt parameter
+        // which will ensure the game runs at the same speed for
+        // all computers.
+        this.x += this.speed * dt;
+        // Check if the enemy is off screen
+        if (this.x >= 600) {
+            // If so, move it to start
+            this.x = -200;
+        }
     }
 };
 
@@ -35,9 +46,10 @@ class Enemy {
 // Our Player
 // This class requires an update(), render() and
 // a handleInput() method.
-class Player {
+class Player extends Character {
     constructor(x, y) {
-        this.sprite = 'images/char-horn-girl.png';
+        super();
+        this.sprite += 'char-horn-girl.png';
         this.x = x;
         this.y = y;
         this.comfortZone = 75;
@@ -52,11 +64,6 @@ class Player {
             // Open a Game Over modal
             openModal();
         }
-    }
-
-    // Draw the player on the screen, required method for game
-    render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
     handleInput(keyPressed) {
