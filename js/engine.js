@@ -98,6 +98,21 @@
         player.update();
     }
 
+    //The function checks if both player and one of the enemies collide each other - if so the player gets reset to the starting postition and loses 1 "life"
+    //2D collision detector from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+    function checkCollisions() {
+        for (const enemy of allEnemies) {
+            if (player.x < enemy.x + player.comfortZone &&
+                player.x + player.comfortZone > enemy.x &&
+                player.y < enemy.y + player.comfortZone &&
+                player.y + player.comfortZone > enemy.y) {
+                    
+                    player.die();
+                    player.restart();
+            } 
+        }
+    }
+
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -

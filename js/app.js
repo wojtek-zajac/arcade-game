@@ -161,21 +161,6 @@ document.addEventListener('keyup', function(e) {
 });
 
 
-//2D collision detector from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-function checkCollisions() {
-    for (const enemy of allEnemies) {
-        if (player.x < enemy.x + player.comfortZone &&
-            player.x + player.comfortZone > enemy.x &&
-            player.y < enemy.y + player.comfortZone &&
-            player.y + player.comfortZone > enemy.y) {
-                
-                player.die();
-                player.restart();
-        } 
-    }
-}
-
-
 function openModal() {
     const modal = document.querySelector('.modal');
 
