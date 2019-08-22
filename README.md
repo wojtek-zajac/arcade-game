@@ -19,6 +19,10 @@ Try to reach the water as many times as you can. You can collide 5 times with an
 [Clone](https://github.com/wojtek-zajac/arcade-game)/[Download](https://github.com/wojtek-zajac/arcade-game) the repo and open `index.html`. The game starts as the page loads.
 
 
+## Live Demo
+
+https://wojtek-zajac.github.io/arcade-game/
+
 ## Credits
 
 * Visual assets and a game loop engine provided by [Udacity](https://eu.udacity.com/)
